@@ -1,22 +1,26 @@
-import { test, expect } from "@playwright/test";
+import { test } from "./fixtures/apiFixtures.js";
+import { expect } from "@playwright/test";
+import { getAuthenticatedToken } from "../src/auth/getAuthenticatedToken.js";
+
 test.describe("GET tequests", () => {
-  test("API is reachable", async ({ request }) => {
+  test("Return 200 after request with correct token", async ({
+    githubRequest,
+  }) => {
     const owner = "ausp1c1ousqw";
     const repo = "private-for-tests";
-    const token =
-      "Bearer ghs_4633201_eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJhdXRobmQiLCJjdHgiOiJ1b04wZTRkVlpYeThmdThySUlpQ04yMVFyLUxOdXVDd3JOb1RmMkYxcFMzS2NRcEE0eWRuc3NZcElRIiwiZXhwIjoxNzg3MDQ2OTQ1LCJpYXQiOjE3ODcwNDMzNDUsImlzcyI6ImdpdGh1YiIsImp0aSI6IjFmMDVjODYzLWJkOGItNDYxOC04MThjLTE2Njg2MmVkODI1OSIsInZlciI6M30.Dng1Lh6zeUn_lhdfe1Ov1Q5iusO2jymOY8RXIZIPxWem8gNUcLFXz4OkJ_1kgc0jKRVk5FO46pQqQDYogdbr5Q";
-    const response = await request.get(`/repos/${owner}/${repo}`, {
-      headers: { Authorization: `${token}` },
+
+    const token = await getAuthenticatedToken();
+    const response = await githubRequest.get(`/repos/${owner}/${repo}`, {
+      headers: { Authorization: `Bearer ${token}` },
     });
     const result = await response.json();
-    console.log(result);
     expect(response.status()).toBe(200);
     expect(result.name).toBe(repo);
     expect(result.full_name).toBe(`${owner}/${repo}`);
     expect(result.private).toBe(true);
   });
 
-  test("Expired token", async ({ request }) => {
+  test("Return 401 after rquest with incorrect token", async ({ request }) => {
     const owner = "ausp1c1ousqw";
     const repo = "private-for-tests";
     const expiredToken =
@@ -25,7 +29,15 @@ test.describe("GET tequests", () => {
       headers: { Authorization: `${expiredToken}` },
     });
     const result = await response.json();
-    console.log(result);
     expect(response.status()).toBe(401);
+  });
+
+  test("Return 404 after rquest without token", async ({ request }) => {
+    const owner = "ausp1c1ousqw";
+    const repo = "private-for-tests";
+
+    const response = await request.get(`/repos/${owner}/${repo}`);
+    const result = await response.json();
+    expect(response.status()).toBe(404);
   });
 });

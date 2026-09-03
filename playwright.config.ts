@@ -1,7 +1,7 @@
 import { defineConfig } from "@playwright/test";
 import * as dotenv from "dotenv";
 
-dotenv.config({quiet: true});
+dotenv.config({ quiet: true });
 
 export default defineConfig({
   testDir: "./tests",
@@ -12,7 +12,7 @@ export default defineConfig({
 
   use: {
     baseURL: process.env.BASE_URL,
-    
+
     extraHTTPHeaders: {
       "Content-Type": "application/json",
       Accept: "application/json",
