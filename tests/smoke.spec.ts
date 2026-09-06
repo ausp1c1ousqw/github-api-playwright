@@ -1,5 +1,4 @@
-import { test } from "./fixtures/apiFixtures.js";
-import { expect } from "@playwright/test";
+import { test, expect } from "./fixtures/apiFixtures.js";
 import { getAuthenticatedToken } from "../src/auth/getAuthenticatedToken.js";
 
 test.describe("GET tequests", () => {

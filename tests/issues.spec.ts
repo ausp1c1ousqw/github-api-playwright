@@ -1,5 +1,4 @@
-import { expect } from "@playwright/test";
-import { test } from "./fixtures/apiFixtures.js";
+import { test, expect } from "./fixtures/apiFixtures.js";
 import { generateUniqueIssueTitle, TEST_ISSUE_BODY } from "./utils/testData.js";
 
 test.describe("Issues CRUD", () => {
