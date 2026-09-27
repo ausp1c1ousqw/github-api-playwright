@@ -37,6 +37,7 @@ jobs:
           GH_APP_PRIVATE_KEY_PATH: secrets/github-app.pem
           GH_OWNER: ${{ vars.GH_OWNER }}
           GH_REPO: ${{ vars.GH_REPO }}
+          BASE_URL: ${{vars.BASE_URL}}
         run: npx playwright test
 
       - name: Upload logs
