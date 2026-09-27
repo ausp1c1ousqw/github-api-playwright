@@ -1,7 +1,7 @@
 import { test, expect } from "./fixtures/apiFixtures.js";
 
 test.describe("Users", () => {
-  test.only("returns 403 for the authenticated user endpoint with an App installation token", async ({
+  test("returns 403 for the authenticated user endpoint with an App installation token", async ({
     userClient,
   }) => {
     // GitHub App installation tokens aren't tied to a human user, so
