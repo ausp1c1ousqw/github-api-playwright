@@ -9,7 +9,7 @@ test.describe("Users", () => {
     // documents that behavior rather than assuming a PAT-style 200.
     const response = await userClient.getAuthenticatedUser();
 
-    expect(response.status()).toBe(402);
+    expect(response.status()).toBe(403);
   });
 
   test("gets a public user by username", async ({ userClient, repoClient }) => {
